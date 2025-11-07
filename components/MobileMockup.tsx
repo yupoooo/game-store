@@ -284,22 +284,52 @@ const MobileMockup: React.FC = () => {
     const [isGlobalChatOpen, setIsGlobalChatOpen] = useState(false);
     const [playerId, setPlayerId] = useState('');
 
+    // Effect for LOADING state from localStorage on initial mount
     useEffect(() => {
-        const loggedInUser = localStorage.getItem('gameSyUser');
-        if (loggedInUser) {
-            setCurrentUser(loggedInUser);
-            setView('categories');
+        try {
+            const savedStateJSON = localStorage.getItem('gameSyState');
+            if (savedStateJSON) {
+                const savedState = JSON.parse(savedStateJSON);
+                if (savedState.currentUser) {
+                    setCurrentUser(savedState.currentUser);
+                    setCart(savedState.cart || []);
+                    setView(savedState.view || 'categories');
+                    setSelectedCategory(savedState.selectedCategory || null);
+                    setPlayerId(savedState.playerId || '');
+                }
+            }
+        } catch (error) {
+            console.error("Failed to load state from localStorage", error);
+            localStorage.removeItem('gameSyState'); // Clear corrupted state
         }
     }, []);
 
+    // Effect for SAVING state to localStorage whenever it changes
+    useEffect(() => {
+        try {
+            if (currentUser) { // Only save state if a user is logged in
+                const stateToSave = {
+                    currentUser,
+                    cart,
+                    view,
+                    selectedCategory,
+                    playerId,
+                };
+                localStorage.setItem('gameSyState', JSON.stringify(stateToSave));
+            }
+        } catch (error) {
+            console.error("Failed to save state to localStorage", error);
+        }
+    }, [currentUser, cart, view, selectedCategory, playerId]);
+
+
     const handleLogin = (username: string) => {
         setCurrentUser(username);
-        localStorage.setItem('gameSyUser', username);
         setView('categories');
     };
 
     const handleLogout = () => {
-        localStorage.removeItem('gameSyUser');
+        localStorage.removeItem('gameSyState');
         setCurrentUser(null);
         setCart([]);
         setSelectedCategory(null);
