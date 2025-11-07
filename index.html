@@ -1,58 +1,59 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Game SY Digital Store</title>
+    <title>متجر Game SY الرقمي</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Babel is used to transpile JSX/TSX code directly in the browser -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
     <style>
         body {
-            font-family: 'Rajdhani', sans-serif;
+            /* Using a font that supports Arabic for better UI */
+            font-family: 'Cairo', sans-serif;
         }
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: scale(0.95) translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1) translateY(0);
-            }
+            from { opacity: 0; transform: scale(0.95) translateY(10px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
         }
         @keyframes fadeOut {
-            from {
-                opacity: 1;
-                transform: scale(1);
-            }
-            to {
-                opacity: 0;
-                transform: scale(0.95);
-            }
+            from { opacity: 1; transform: scale(1); }
+            to { opacity: 0; transform: scale(0.95); }
         }
-        .animate-fadeIn {
-            animation: fadeIn 0.3s ease-out forwards;
-        }
-        .animate-fadeOut {
-            animation: fadeOut 0.3s ease-in forwards;
-        }
+        .animate-fadeIn { animation: fadeIn 0.3s ease-out forwards; }
+        .animate-fadeOut { animation: fadeOut 0.3s ease-in forwards; }
     </style>
-<script type="importmap">
+
+    <!-- 
+      This is the corrected importmap.
+      It loads React and all other libraries from a single, consistent source (esm.sh)
+      to permanently fix the version conflict error.
+    -->
+    <script type="importmap">
 {
   "imports": {
-    "react/": "https://aistudiocdn.com/react@^19.2.0/",
-    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react": "https://esm.sh/react@18.2.0",
+    "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
+    "@google/genai": "https://esm.sh/@google/genai@0.14.0",
     "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
-    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.29.0"
+    "react/": "https://aistudiocdn.com/react@^19.2.0/"
   }
 }
 </script>
 </head>
 <body class="bg-[#0a0a2a]">
     <div id="root"></div>
+    
+    <!-- 
+      This script tag is the entry point for the application.
+      Babel will fetch and convert all your TSX files into JavaScript the browser can run.
+    -->
+    <script type="text/babel" data-type="module" src="./index.tsx"></script>
 </body>
 </html>
